@@ -1,0 +1,9 @@
+# Put all the command you want to run here!
+# Prefix with 'console:' to run command from console.
+# Placeholders are %player% for player name and %world% for world player is in.
+commands:
+  # This is an example. To run this in Multiverse you can do '/mvtp cmd:example'
+  # To set a portal destination do '/mvp modify dest cmd:example -p <portalname>'
+  example:
+    - 'say I am %player% at %world%.'
+    - 'console:say This is running from console.'
