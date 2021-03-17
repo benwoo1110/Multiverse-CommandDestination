@@ -10,6 +10,7 @@
     <packaging>jar</packaging>
 
     <name>Multiverse-CommandDestination</name>
+    <description>A multiverse addon to run command on MVDestination teleport.</description>
 
     <properties>
         <java.version>1.8</java.version>
