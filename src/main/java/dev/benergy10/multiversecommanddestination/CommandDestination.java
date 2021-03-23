@@ -62,6 +62,11 @@ public class CommandDestination implements MVDestination {
     }
 
     @Override
+    public String toString() {
+        return "cmd:" + this.targetCommand;
+    }
+
+    @Override
     public String getRequiredPermission() {
         return "";
     }
