@@ -7,3 +7,8 @@ commands:
   example:
     - 'say I am %player% at %world%.'
     - 'console:say This is running from console.'
+
+
+# Other settings
+# Enable parsing of placeholders provided by placeholderAPI plugin if you have it installed.
+enable-papi-hook: true

@@ -2,11 +2,14 @@ package dev.benergy10.multiversecommanddestination;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiversePortals.MultiversePortals;
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -15,15 +18,19 @@ import java.util.Map;
 
 public final class MultiverseCommandDestination extends JavaPlugin {
 
+    private boolean doPapiHook = true;
+    private boolean doDebug = false;
     private final Map<String, List<String>> commandMap = new HashMap<>();
 
     private MultiverseCore core;
     private MultiversePortals portals;
+    private PlaceholderAPIPlugin papi;
 
     @Override
     public void onEnable() {
         this.core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         this.portals = (MultiversePortals) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Portals");
+        this.papi = (PlaceholderAPIPlugin) Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI");
 
         this.core.getDestFactory().registerDestinationType(CommandDestination.class, "cmd");
 
@@ -34,10 +41,6 @@ public final class MultiverseCommandDestination extends JavaPlugin {
         }
 
         this.loadConfig();
-    }
-
-    @Override
-    public void onDisable() {
     }
 
     public void loadConfig() {
@@ -53,6 +56,7 @@ public final class MultiverseCommandDestination extends JavaPlugin {
             List<String> commandList = commandSection.getStringList(cmdName);
             this.commandMap.put(cmdName.toLowerCase(), commandList);
         }
+        this.doPapiHook = config.getBoolean("enable-papi-hook", true);
     }
 
     public void runCommand(Entity entity, String cmdName) {
@@ -67,8 +71,14 @@ public final class MultiverseCommandDestination extends JavaPlugin {
                 targetExecutor = Bukkit.getConsoleSender();
                 command = command.substring(8);
             }
+
             command = command.replaceAll("%player%", entity.getName())
                     .replaceAll("%world%", entity.getWorld().getName());
+
+            if (this.papi != null && this.doPapiHook && entity instanceof Player) {
+                command = PlaceholderAPI.setPlaceholders((Player) entity, command);
+            }
+
             Bukkit.dispatchCommand(targetExecutor, command);
         }
     }
