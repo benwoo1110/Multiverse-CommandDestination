@@ -1,10 +1,22 @@
-# Put all the command you want to run here!
-# Prefix with 'console:' to run command from console.
-# Placeholders are %player% for player name and %world% for world player is in.
+# Multiverse-CommandDestination
+# Spigot: https://www.spigotmc.org/resources/multiverse-commanddestination.90232/
+# Discord: https://discord.gg/Be59ehc
+# Github: https://github.com/benwoo1110/Multiverse-CommandDestination.git
+
+
+# Command settings
+# Put all the command you want to run here.
 commands:
-  # This is an example. To run this in Multiverse you can do '/mvtp cmd:example'
-  # To set a portal destination do '/mvp modify dest cmd:example -p <portalname>'
-  example:
+  # The destination string is 'cmd:<name>'.
+  # Prefix with 'console:' to run command from console.
+  # Built in placeholders are:
+  #   - %player% for player name.
+  #   - %world% for world name player is in.
+  # If you want additional placeholders, get PlaceholderAPI plugin.
+
+  # This is an example. To run this in Multiverse you can do '/mvtp cmd:examplename'
+  # To set a portal destination do '/mvp modify dest cmd:examplename -p <portalname>'
+  examplename:
     - 'say I am %player% at %world%.'
     - 'console:say This is running from console.'
 

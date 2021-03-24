@@ -19,7 +19,6 @@ import java.util.Map;
 public final class MultiverseCommandDestination extends JavaPlugin {
 
     private boolean doPapiHook = true;
-    private boolean doDebug = false;
     private final Map<String, List<String>> commandMap = new HashMap<>();
 
     private MultiverseCore core;

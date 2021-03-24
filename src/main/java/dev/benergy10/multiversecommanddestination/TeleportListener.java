@@ -1,7 +1,6 @@
 package dev.benergy10.multiversecommanddestination;
 
 import com.onarandombox.MultiverseCore.event.MVTeleportEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
