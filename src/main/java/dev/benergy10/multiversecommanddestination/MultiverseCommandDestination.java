@@ -88,7 +88,7 @@ public final class MultiverseCommandDestination extends JavaPlugin {
         }
     }
 
-    public File getConfigFile() {
+    public @NotNull File getConfigFile() {
         return new File(this.getDataFolder(), CONFIG_FILENAME);
     }
 
