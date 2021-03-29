@@ -83,7 +83,8 @@ public class MultiverseListeners {
         public void onVersion(MVVersionEvent event) {
             event.putDetailedVersionInfo("Multiverse-CommandDestination/config.yml", this.plugin.getConfigFile());
             event.appendVersionInfo(
-                    "[Multiverse-CommandDestination] Loaded commands: " + this.plugin.getCommandMap() + "\n" +
+                    "[Multiverse-CommandDestination] Multiverse-CommandDestination version: " + this.plugin.getDescription().getVersion() + "\n" +
+                            "[Multiverse-CommandDestination] Loaded commands: " + this.plugin.getCommandMap() + "\n" +
                             "[Multiverse-CommandDestination] Do papi hook: " + this.plugin.isDoPapiHook() + "\n" +
                             "[Multiverse-CommandDestination] MV-Portals installed: " + this.plugin.isPortalsInstalled() + "\n" +
                             "[Multiverse-CommandDestination] Papi installed: " + this.plugin.isPapiInstalled() + "\n"
