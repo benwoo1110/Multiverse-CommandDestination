@@ -9,8 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.io.File;
-
 public class MultiverseListeners {
 
     public static void registerEvents(MultiverseCommandDestination plugin) {
@@ -83,10 +81,7 @@ public class MultiverseListeners {
         }
         @EventHandler
         public void onVersion(MVVersionEvent event) {
-            event.putDetailedVersionInfo(
-                    "Multiverse-CommandDestination/config.yml",
-                    new File(this.plugin.getDataFolder(), "config.yml")
-            );
+            event.putDetailedVersionInfo("Multiverse-CommandDestination/config.yml", this.plugin.getConfigFile());
             event.appendVersionInfo(
                     "[Multiverse-CommandDestination] Loaded commands: " + this.plugin.getCommandMap() + "\n" +
                             "[Multiverse-CommandDestination] Do papi hook: " + this.plugin.isDoPapiHook() + "\n" +

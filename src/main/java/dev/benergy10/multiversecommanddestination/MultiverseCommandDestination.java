@@ -6,23 +6,27 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public final class MultiverseCommandDestination extends JavaPlugin {
 
-    private boolean doPapiHook = true;
-    private final Map<String, List<String>> commandMap = new HashMap<>();
+    private static final String CONFIG_FILENAME = "config.yml";
 
     private boolean portalsInstalled;
     private boolean papiInstalled;
+
+    private final Map<String, List<String>> commandMap = new HashMap<>();
+    private boolean doPapiHook = true;
 
     @Override
     public void onEnable() {
@@ -44,9 +48,11 @@ public final class MultiverseCommandDestination extends JavaPlugin {
 
     public void loadConfig() {
         this.commandMap.clear();
-        this.saveDefaultConfig();
-        this.reloadConfig();
-        FileConfiguration config = this.getConfig();
+        File configFile = this.getConfigFile();
+        if (!configFile.exists()) {
+            this.saveResource(CONFIG_FILENAME, false);
+        }
+        FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
         ConfigurationSection commandSection = config.getConfigurationSection("commands");
         if (commandSection == null) {
             return;
@@ -80,6 +86,10 @@ public final class MultiverseCommandDestination extends JavaPlugin {
 
             Bukkit.dispatchCommand(targetExecutor, command);
         }
+    }
+
+    public File getConfigFile() {
+        return new File(this.getDataFolder(), CONFIG_FILENAME);
     }
 
     public @NotNull @Unmodifiable Map<String, List<String>> getCommandMap() {
