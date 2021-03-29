@@ -1,9 +1,7 @@
 package dev.benergy10.multiversecommanddestination;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
-import com.onarandombox.MultiversePortals.MultiversePortals;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -12,7 +10,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.HashMap;
@@ -24,23 +21,23 @@ public final class MultiverseCommandDestination extends JavaPlugin {
     private boolean doPapiHook = true;
     private final Map<String, List<String>> commandMap = new HashMap<>();
 
-    private MultiverseCore core;
-    private MultiversePortals portals;
-    private PlaceholderAPIPlugin papi;
+    private boolean portalsInstalled;
+    private boolean papiInstalled;
 
     @Override
     public void onEnable() {
-        this.core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        this.portals = (MultiversePortals) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Portals");
-        this.papi = (PlaceholderAPIPlugin) Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI");
-
-        this.core.getDestFactory().registerDestinationType(CommandDestination.class, "cmd");
-
-        CoreListener.registerEvents(this);
-        Bukkit.getPluginManager().registerEvents(new TeleportListener(this), this);
-        if (this.portals != null) {
-            Bukkit.getPluginManager().registerEvents(new PortalListener(this), this);
+        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
+        if (core == null) {
+            this.getLogger().info("Multiverse-Core is not installed on your server.");
+            this.getLogger().info("CommandDestination will not work!");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
         }
+        core.getDestFactory().registerDestinationType(CommandDestination.class, "cmd");
+        MultiverseListeners.registerEvents(this);
+
+        this.portalsInstalled = Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Portals") != null;
+        this.papiInstalled = Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null;
 
         this.loadConfig();
     }
@@ -77,7 +74,7 @@ public final class MultiverseCommandDestination extends JavaPlugin {
             command = command.replaceAll("%player%", entity.getName())
                     .replaceAll("%world%", entity.getWorld().getName());
 
-            if (this.papi != null && this.doPapiHook && entity instanceof Player) {
+            if (this.papiInstalled && this.doPapiHook && entity instanceof Player) {
                 command = PlaceholderAPI.setPlaceholders((Player) entity, command);
             }
 
@@ -93,15 +90,11 @@ public final class MultiverseCommandDestination extends JavaPlugin {
         return doPapiHook;
     }
 
-    public @Nullable MultiverseCore getCore() {
-        return core;
+    public boolean isPortalsInstalled() {
+        return portalsInstalled;
     }
 
-    public @Nullable MultiversePortals getPortals() {
-        return portals;
-    }
-
-    public @Nullable PlaceholderAPIPlugin getPapi() {
-        return papi;
+    public boolean isPapiInstalled() {
+        return papiInstalled;
     }
 }
