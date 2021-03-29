@@ -3,7 +3,6 @@ package dev.benergy10.multiversecommanddestination;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -65,12 +64,12 @@ public final class MultiverseCommandDestination extends JavaPlugin {
         this.doPapiHook = config.getBoolean("enable-papi-hook", true);
     }
 
-    public void runCommand(Entity entity, String cmdName) {
+    public void runCommand(CommandSender sender, Entity entity, String cmdName) {
         List<String> commandList = this.commandMap.get(cmdName.toLowerCase());
         if (commandList == null) {
-            entity.sendMessage("No such command destination with name: " + cmdName);
+            sender.sendMessage("No such command destination with name: " + cmdName);
             if (this.isDefaultCommand()) {
-                entity.sendMessage("It looks like you have not setup any command destinations. Please do so in CommandDestination config.yml file.");
+                sender.sendMessage("It looks like you have not setup any command destinations. Please do so in CommandDestination config.yml file.");
             }
             return;
         }

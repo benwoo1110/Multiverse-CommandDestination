@@ -44,7 +44,7 @@ public class MultiverseListeners {
             if (!(dest instanceof CommandDestination)) {
                 return;
             }
-            this.plugin.runCommand(event.getTeleportee(), dest.getName());
+            this.plugin.runCommand(event.getTeleporter(), event.getTeleportee(), dest.getName());
             event.setCancelled(true);
         }
     }
@@ -59,7 +59,7 @@ public class MultiverseListeners {
             if (!(dest instanceof CommandDestination)) {
                 return;
             }
-            this.plugin.runCommand(event.getTeleportee(), dest.getName());
+            this.plugin.runCommand(event.getTeleportee(), event.getTeleportee(), dest.getName());
             event.setCancelled(true);
         }
     }
