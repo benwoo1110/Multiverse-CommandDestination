@@ -11,6 +11,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +36,7 @@ public final class MultiverseCommandDestination extends JavaPlugin {
 
         this.core.getDestFactory().registerDestinationType(CommandDestination.class, "cmd");
 
-        Bukkit.getPluginManager().registerEvents(new CoreListener(this), this);
+        CoreListener.registerEvents(this);
         Bukkit.getPluginManager().registerEvents(new TeleportListener(this), this);
         if (this.portals != null) {
             Bukkit.getPluginManager().registerEvents(new PortalListener(this), this);
@@ -80,5 +83,25 @@ public final class MultiverseCommandDestination extends JavaPlugin {
 
             Bukkit.dispatchCommand(targetExecutor, command);
         }
+    }
+
+    public @NotNull @Unmodifiable Map<String, List<String>> getCommandMap() {
+        return commandMap;
+    }
+
+    public boolean isDoPapiHook() {
+        return doPapiHook;
+    }
+
+    public @Nullable MultiverseCore getCore() {
+        return core;
+    }
+
+    public @Nullable MultiversePortals getPortals() {
+        return portals;
+    }
+
+    public @Nullable PlaceholderAPIPlugin getPapi() {
+        return papi;
     }
 }
