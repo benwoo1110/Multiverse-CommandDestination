@@ -1,14 +1,14 @@
 package dev.benergy10.multiversecommanddestination;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
-import me.clip.placeholderapi.PlaceholderAPI;
+import dev.benergy10.commandexecutorapi.CommandGroup;
+import dev.benergy10.commandexecutorapi.CommandProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
@@ -25,7 +25,9 @@ public final class MultiverseCommandDestination extends JavaPlugin {
     private boolean portalsInstalled;
     private boolean papiInstalled;
 
-    private final Map<String, List<String>> commandMap = new HashMap<>();
+    private CommandProvider commandProvider;
+
+    private final Map<String, CommandGroup> commandMap = new HashMap<>();
     private boolean doPapiHook = true;
 
     @Override
@@ -43,6 +45,8 @@ public final class MultiverseCommandDestination extends JavaPlugin {
         this.portalsInstalled = Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Portals") != null;
         this.papiInstalled = Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null;
 
+        this.commandProvider = new CommandProvider();
+
         this.loadConfig();
     }
 
@@ -59,36 +63,21 @@ public final class MultiverseCommandDestination extends JavaPlugin {
         }
         for (String cmdName : commandSection.getKeys(false)) {
             List<String> commandList = commandSection.getStringList(cmdName);
-            this.commandMap.put(cmdName.toLowerCase(), commandList);
+            this.commandMap.put(cmdName.toLowerCase(), this.commandProvider.toCommandGroup(commandList));
         }
         this.doPapiHook = config.getBoolean("enable-papi-hook", true);
     }
 
     public void runCommand(CommandSender sender, Entity entity, String cmdName) {
-        List<String> commandList = this.commandMap.get(cmdName.toLowerCase());
-        if (commandList == null) {
+        CommandGroup commandGroup = this.commandMap.get(cmdName.toLowerCase());
+        if (commandGroup == null) {
             sender.sendMessage("No such command destination with name: " + cmdName);
             if (this.isDefaultCommand()) {
                 sender.sendMessage("It looks like you have not setup any command destinations. Please do so in CommandDestination config.yml file.");
             }
             return;
         }
-        for (String command : commandList) {
-            CommandSender targetExecutor = entity;
-            if (command.startsWith("console:")) {
-                targetExecutor = Bukkit.getConsoleSender();
-                command = command.substring(8);
-            }
-
-            command = command.replaceAll("%player%", entity.getName())
-                    .replaceAll("%world%", entity.getWorld().getName());
-
-            if (this.papiInstalled && this.doPapiHook && entity instanceof Player) {
-                command = PlaceholderAPI.setPlaceholders((Player) entity, command);
-            }
-
-            Bukkit.dispatchCommand(targetExecutor, command);
-        }
+        commandGroup.executeAll(entity);
     }
 
     private boolean isDefaultCommand() {
@@ -99,7 +88,11 @@ public final class MultiverseCommandDestination extends JavaPlugin {
         return new File(this.getDataFolder(), CONFIG_FILENAME);
     }
 
-    public @NotNull @Unmodifiable Map<String, List<String>> getCommandMap() {
+    public CommandProvider getCommandProvider() {
+        return commandProvider;
+    }
+
+    public @NotNull @Unmodifiable Map<String, CommandGroup> getCommandMap() {
         return commandMap;
     }
 

@@ -41,6 +41,12 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <relocations>
+                                <relocation>
+                                    <pattern>dev.benergy10.commandexecutorapi</pattern>
+                                    <shadedPattern>dev.benergy10.multiversecommanddestination.commandexecutorapi</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
@@ -68,8 +74,8 @@
             <url>http://repo.onarandombox.com/content/groups/public/</url>
         </repository>
         <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <id>benergy10</id>
+            <url>http://repo.benergy10.dev/repository/maven-public/</url>
         </repository>
     </repositories>
 
@@ -93,10 +99,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>me.clip</groupId>
-            <artifactId>placeholderapi</artifactId>
-            <version>2.10.9</version>
-            <scope>provided</scope>
+            <groupId>dev.benergy10.commandexecutorapi</groupId>
+            <artifactId>CommandExecutorAPI</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
