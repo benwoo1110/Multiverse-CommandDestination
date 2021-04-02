@@ -22,11 +22,7 @@ public final class MultiverseCommandDestination extends JavaPlugin {
 
     private static final String CONFIG_FILENAME = "config.yml";
 
-    private boolean portalsInstalled;
-    private boolean papiInstalled;
-
     private CommandProvider commandProvider;
-
     private final Map<String, CommandGroup> commandMap = new HashMap<>();
     private boolean doPapiHook = true;
 
@@ -41,9 +37,6 @@ public final class MultiverseCommandDestination extends JavaPlugin {
         }
         core.getDestFactory().registerDestinationType(CommandDestination.class, "cmd");
         MultiverseListeners.registerEvents(this);
-
-        this.portalsInstalled = Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Portals") != null;
-        this.papiInstalled = Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null;
 
         this.commandProvider = new CommandProvider();
 
@@ -88,7 +81,7 @@ public final class MultiverseCommandDestination extends JavaPlugin {
         return new File(this.getDataFolder(), CONFIG_FILENAME);
     }
 
-    public CommandProvider getCommandProvider() {
+    public @NotNull CommandProvider getCommandProvider() {
         return commandProvider;
     }
 
@@ -98,13 +91,5 @@ public final class MultiverseCommandDestination extends JavaPlugin {
 
     public boolean isDoPapiHook() {
         return doPapiHook;
-    }
-
-    public boolean isPortalsInstalled() {
-        return portalsInstalled;
-    }
-
-    public boolean isPapiInstalled() {
-        return papiInstalled;
     }
 }
