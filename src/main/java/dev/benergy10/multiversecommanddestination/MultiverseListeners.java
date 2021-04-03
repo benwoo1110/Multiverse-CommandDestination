@@ -13,6 +13,7 @@ public class MultiverseListeners {
 
     public static void registerEvents(MultiverseCommandDestination plugin) {
         tryRegister("com.onarandombox.MultiverseCore.event.MVTeleportEvent", new TeleportListener(plugin));
+        plugin.getLogger().info("§aThe following message is safe to ignore:");
         tryRegister("com.onarandombox.MultiversePortals.event.MVPortalEvent", new PortalListener(plugin));
         tryRegister("com.onarandombox.MultiverseCore.event.MVConfigReloadEvent", new ReloadListener(plugin));
         tryRegister("com.onarandombox.MultiverseCore.event.MVVersionEvent", new VersionListener(plugin));

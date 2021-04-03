@@ -4,5 +4,6 @@ version: ${project.version}
 main: dev.benergy10.multiversecommanddestination.MultiverseCommandDestination
 api-version: 1.13
 authors: [ benwoo1110 ]
+loadbefore: [Multiverse-Portals]
 depend: [Multiverse-Core]
-softdepend: [Multiverse-Portals, PlaceholderAPI]
+softdepend: [PlaceholderAPI]
