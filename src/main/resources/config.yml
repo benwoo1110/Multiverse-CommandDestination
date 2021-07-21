@@ -7,25 +7,41 @@
 # Paypal: https://paypal.me/benergy10
 
 
-# Command settings
+# +------------------+
+# | Command settings |
+# +------------------+
 # Put all the commands you want to run here.
+# If you face yaml error, check formatting with http://www.yamllint.com/
 commands:
   # The destination string is 'cmd:<name>'.
-  # Prefix with 'console:' to run command from console.
+  # Prefix with 'console:' to run command from Console.
+  # Prefix with 'op:' to run command as Operator.
   # Built in placeholders are:
   #   - %player% for player name.
   #   - %world% for world name player is in.
   # If you need additional placeholders, you can optionally get PlaceholderAPI plugin.
 
-  # The follow is an example.
+  # The following is an example.
   # To run this in Multiverse teleport command, you can do: '/mvtp cmd:examplename'
-  # To set a portal destination do: '/mvp modify dest cmd:examplename -p <portalname>'
+  # To set a portal destination, run '/mvp modify dest cmd:examplename -p <portalname>'
   # Upon teleporting to the destination, the 2 say command will be executed.
   examplename:
     - 'say I am %player% at %world%.'
     - 'console:say This is running from console.'
 
+  # A command destination pre-made if you use BetterRTP plugin
+  # Simply set your portal destination with '/mvp modify dest cmd:betterrtp -p <portalname>'
+  betterrtp:
+    - 'console:rtp player %player% world' # Replace world with your actual target world.
 
-# Other settings
+  # A command destination pre-made if you use WildernessTp plugin
+  # Simply set your portal destination with '/mvp modify dest cmd:wildernesstp -p <portalname>'
+  wildernesstp:
+    - 'console:wild %player%'
+
+
+# +----------------+
+# | Other settings |
+# +----------------+
 # Enable parsing of placeholders provided by placeholderAPI plugin if you have it installed.
 enable-papi-hook: true
