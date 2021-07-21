@@ -4,6 +4,7 @@ import com.onarandombox.MultiverseCore.MultiverseCore;
 import dev.benergy10.commandexecutorapi.CommandGroup;
 import dev.benergy10.commandexecutorapi.CommandProvider;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -64,17 +65,10 @@ public final class MultiverseCommandDestination extends JavaPlugin {
     public void runCommand(CommandSender sender, Entity entity, String cmdName) {
         CommandGroup commandGroup = this.commandMap.get(cmdName.toLowerCase());
         if (commandGroup == null) {
-            sender.sendMessage("No such command destination with name: " + cmdName);
-            if (this.isDefaultCommand()) {
-                sender.sendMessage("It looks like you have not setup any command destinations. Please do so in CommandDestination config.yml file.");
-            }
+            sender.sendMessage("No such command destination with key: " + ChatColor.RED + cmdName);
             return;
         }
         commandGroup.executeAll(entity);
-    }
-
-    private boolean isDefaultCommand() {
-        return this.commandMap.isEmpty() || (this.commandMap.size() == 1 && this.commandMap.containsKey("examplename"));
     }
 
     public @NotNull File getConfigFile() {
