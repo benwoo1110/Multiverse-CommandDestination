@@ -86,7 +86,8 @@ public class MultiverseListeners {
             event.appendVersionInfo(
                     "[Multiverse-CommandDestination] Multiverse-CommandDestination version: " + this.plugin.getDescription().getVersion() + "\n" +
                             "[Multiverse-CommandDestination] Loaded commands: " + this.plugin.getCommandMap() + "\n" +
-                            "[Multiverse-CommandDestination] Do papi hook: " + this.plugin.isDoPapiHook() + "\n"
+                            "[Multiverse-CommandDestination] Papi installed: " + this.plugin.getCommandProvider().isPapiInstalled() + "\n" +
+                            "[Multiverse-CommandDestination] Allow papi hook: " + this.plugin.getCommandProvider().isUsePapi() + "\n"
             );
         }
     }

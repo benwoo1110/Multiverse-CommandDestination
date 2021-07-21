@@ -25,7 +25,6 @@ public final class MultiverseCommandDestination extends JavaPlugin {
 
     private CommandProvider commandProvider;
     private final Map<String, CommandGroup> commandMap = new HashMap<>();
-    private boolean doPapiHook = true;
 
     @Override
     public void onEnable() {
@@ -59,7 +58,7 @@ public final class MultiverseCommandDestination extends JavaPlugin {
             List<String> commandList = commandSection.getStringList(cmdName);
             this.commandMap.put(cmdName.toLowerCase(), this.commandProvider.toCommandGroup(commandList));
         }
-        this.doPapiHook = config.getBoolean("enable-papi-hook", true);
+        commandProvider.setUsePapi(config.getBoolean("enable-papi-hook", true));
     }
 
     public void runCommand(CommandSender sender, Entity entity, String cmdName) {
@@ -81,9 +80,5 @@ public final class MultiverseCommandDestination extends JavaPlugin {
 
     public @NotNull @Unmodifiable Map<String, CommandGroup> getCommandMap() {
         return commandMap;
-    }
-
-    public boolean isDoPapiHook() {
-        return doPapiHook;
     }
 }
