@@ -1,22 +1,21 @@
 package dev.benergy10.multiversecommanddestination;
 
-import com.onarandombox.MultiverseCore.api.MVDestination;
-import com.onarandombox.MultiverseCore.event.MVConfigReloadEvent;
-import com.onarandombox.MultiverseCore.event.MVTeleportEvent;
-import com.onarandombox.MultiverseCore.event.MVVersionEvent;
-import com.onarandombox.MultiversePortals.event.MVPortalEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.mvplugins.multiverse.core.destination.DestinationInstance;
+import org.mvplugins.multiverse.core.event.MVConfigReloadEvent;
+import org.mvplugins.multiverse.core.event.MVDumpsDebugInfoEvent;
+import org.mvplugins.multiverse.core.event.MVTeleportDestinationEvent;
+import org.mvplugins.multiverse.portals.event.MVPortalEvent;
 
 public class MultiverseListeners {
 
     public static void registerEvents(MultiverseCommandDestination plugin) {
-        tryRegister("com.onarandombox.MultiverseCore.event.MVTeleportEvent", new TeleportListener(plugin));
-        plugin.getLogger().info("§aThe following message is safe to ignore:");
-        tryRegister("com.onarandombox.MultiversePortals.event.MVPortalEvent", new PortalListener(plugin));
-        tryRegister("com.onarandombox.MultiverseCore.event.MVConfigReloadEvent", new ReloadListener(plugin));
-        tryRegister("com.onarandombox.MultiverseCore.event.MVVersionEvent", new VersionListener(plugin));
+        tryRegister("org.mvplugins.multiverse.core.event.MVTeleportDestinationEvent", new TeleportListener(plugin));
+        tryRegister("org.mvplugins.multiverse.portals.event.MVPortalEvent", new PortalListener(plugin));
+        tryRegister("org.mvplugins.multiverse.core.event.MVConfigReloadEvent", new ReloadListener(plugin));
+        tryRegister("org.mvplugins.multiverse.core.event.MVDumpsDebugInfoEvent", new VersionListener(plugin));
     }
 
     private static void tryRegister(String eventClass, AbstractListener listener) {
@@ -40,12 +39,12 @@ public class MultiverseListeners {
             super(plugin);
         }
         @EventHandler
-        public void onTeleport(MVTeleportEvent event) {
-            MVDestination dest = event.getDestination();
-            if (!(dest instanceof CommandDestination)) {
+        public void onTeleport(MVTeleportDestinationEvent event) {
+            DestinationInstance<?, ?> dest = event.getDestination();
+            if (!(dest instanceof CommandDestinationInstance cmdDest)) {
                 return;
             }
-            this.plugin.runCommand(event.getTeleporter(), event.getTeleportee(), dest.getName());
+            this.plugin.runCommand(event.getTeleporter(), event.getTeleportee(), cmdDest.getCommandKey());
             event.setCancelled(true);
         }
     }
@@ -56,11 +55,11 @@ public class MultiverseListeners {
         }
         @EventHandler
         public void onPortal(MVPortalEvent event) {
-            MVDestination dest = event.getDestination();
-            if (!(dest instanceof CommandDestination)) {
+            DestinationInstance<?, ?> dest = event.getDestination();
+            if (!(dest instanceof CommandDestinationInstance cmdDest)) {
                 return;
             }
-            this.plugin.runCommand(event.getTeleportee(), event.getTeleportee(), dest.getName());
+            this.plugin.runCommand(event.getTeleportee(), event.getTeleportee(), cmdDest.getCommandKey());
             event.setCancelled(true);
         }
     }
@@ -81,9 +80,9 @@ public class MultiverseListeners {
             super(plugin);
         }
         @EventHandler
-        public void onVersion(MVVersionEvent event) {
-            event.putDetailedVersionInfo("Multiverse-CommandDestination/config.yml", this.plugin.getConfigFile());
-            event.appendVersionInfo(
+        public void onVersion(MVDumpsDebugInfoEvent event) {
+            event.putDetailedDebugInfo("Multiverse-CommandDestination/config.yml", this.plugin.getConfigFile());
+            event.appendDebugInfo(
                     "[Multiverse-CommandDestination] Multiverse-CommandDestination version: " + this.plugin.getDescription().getVersion() + "\n" +
                             "[Multiverse-CommandDestination] Loaded commands: " + this.plugin.getCommandMap() + "\n" +
                             "[Multiverse-CommandDestination] Papi installed: " + this.plugin.getCommandProvider().isPapiInstalled() + "\n" +

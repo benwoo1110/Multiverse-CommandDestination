@@ -1,6 +1,5 @@
 package dev.benergy10.multiversecommanddestination;
 
-import com.onarandombox.MultiverseCore.MultiverseCore;
 import dev.benergy10.commandexecutorapi.CommandGroup;
 import dev.benergy10.commandexecutorapi.CommandProvider;
 import org.bukkit.Bukkit;
@@ -13,6 +12,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
+import org.mvplugins.multiverse.core.MultiverseCore;
+import org.mvplugins.multiverse.core.destination.DestinationsProvider;
 
 import java.io.File;
 import java.util.HashMap;
@@ -30,12 +31,13 @@ public final class MultiverseCommandDestination extends JavaPlugin {
     public void onEnable() {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         if (core == null) {
-            this.getLogger().info("Multiverse-Core is not installed on your server.");
-            this.getLogger().info("CommandDestination will not work!");
+            this.getLogger().warning("Multiverse-Core is not installed on your server.");
+            this.getLogger().warning("CommandDestination will not work!");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-        core.getDestFactory().registerDestinationType(CommandDestination.class, "cmd");
+        DestinationsProvider destinationsProvider = core.getServiceLocator().getService(DestinationsProvider.class);
+        destinationsProvider.registerDestination(new CommandDestination(this));
         MultiverseListeners.registerEvents(this);
 
         this.commandProvider = new CommandProvider();
