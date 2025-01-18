@@ -1,6 +1,7 @@
 package dev.benergy10.multiversecommanddestination;
 
-import org.mvplugins.multiverse.core.destination.Destination;
+import org.mvplugins.multiverse.core.api.destination.Destination;
+import org.mvplugins.multiverse.core.api.destination.DestinationSuggestionPacket;
 import org.mvplugins.multiverse.external.acf.commands.BukkitCommandIssuer;
 import org.mvplugins.multiverse.external.jetbrains.annotations.NotNull;
 import org.mvplugins.multiverse.external.jetbrains.annotations.Nullable;
@@ -30,7 +31,9 @@ public class CommandDestination implements Destination<CommandDestination, Comma
     }
 
     @Override
-    public @NotNull Collection<String> suggestDestinations(@NotNull BukkitCommandIssuer bukkitCommandIssuer, @Nullable String s) {
-        return plugin.getCommandMap().keySet();
+    public @NotNull Collection<DestinationSuggestionPacket> suggestDestinations(@NotNull BukkitCommandIssuer bukkitCommandIssuer, @Nullable String s) {
+        return this.plugin.getCommandMap().keySet().stream()
+                .map(cmdName -> new DestinationSuggestionPacket(cmdName, cmdName))
+                .toList();
     }
 }

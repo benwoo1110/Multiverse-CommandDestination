@@ -12,8 +12,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
-import org.mvplugins.multiverse.core.MultiverseCore;
-import org.mvplugins.multiverse.core.destination.DestinationsProvider;
+import org.mvplugins.multiverse.core.api.MultiverseCoreApi;
 
 import java.io.File;
 import java.util.HashMap;
@@ -29,15 +28,14 @@ public final class MultiverseCommandDestination extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        if (core == null) {
+        MultiverseCoreApi coreApi = MultiverseCoreApi.get();
+        if (coreApi == null) {
             this.getLogger().warning("Multiverse-Core is not installed on your server.");
             this.getLogger().warning("CommandDestination will not work!");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-        DestinationsProvider destinationsProvider = core.getServiceLocator().getService(DestinationsProvider.class);
-        destinationsProvider.registerDestination(new CommandDestination(this));
+        coreApi.getDestinationsProvider().registerDestination(new CommandDestination(this));
         MultiverseListeners.registerEvents(this);
 
         this.commandProvider = new CommandProvider();

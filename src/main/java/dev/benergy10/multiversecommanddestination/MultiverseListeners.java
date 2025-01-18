@@ -3,19 +3,19 @@ package dev.benergy10.multiversecommanddestination;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.mvplugins.multiverse.core.destination.DestinationInstance;
-import org.mvplugins.multiverse.core.event.MVConfigReloadEvent;
-import org.mvplugins.multiverse.core.event.MVDumpsDebugInfoEvent;
-import org.mvplugins.multiverse.core.event.MVTeleportDestinationEvent;
+import org.mvplugins.multiverse.core.api.destination.DestinationInstance;
+import org.mvplugins.multiverse.core.api.event.MVConfigReloadEvent;
+import org.mvplugins.multiverse.core.api.event.MVDumpsDebugInfoEvent;
+import org.mvplugins.multiverse.core.api.event.MVTeleportDestinationEvent;
 import org.mvplugins.multiverse.portals.event.MVPortalEvent;
 
 public class MultiverseListeners {
 
     public static void registerEvents(MultiverseCommandDestination plugin) {
-        tryRegister("org.mvplugins.multiverse.core.event.MVTeleportDestinationEvent", new TeleportListener(plugin));
+        tryRegister("org.mvplugins.multiverse.core.api.event.MVTeleportDestinationEvent", new TeleportListener(plugin));
         tryRegister("org.mvplugins.multiverse.portals.event.MVPortalEvent", new PortalListener(plugin));
-        tryRegister("org.mvplugins.multiverse.core.event.MVConfigReloadEvent", new ReloadListener(plugin));
-        tryRegister("org.mvplugins.multiverse.core.event.MVDumpsDebugInfoEvent", new VersionListener(plugin));
+        tryRegister("org.mvplugins.multiverse.core.api.event.MVConfigReloadEvent", new ReloadListener(plugin));
+        tryRegister("org.mvplugins.multiverse.core.api.event.MVDumpsDebugInfoEvent", new VersionListener(plugin));
     }
 
     private static void tryRegister(String eventClass, AbstractListener listener) {
