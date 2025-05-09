@@ -6,7 +6,7 @@
 
     <groupId>dev.benergy10.multiversecommanddestination</groupId>
     <artifactId>Multiverse-CommandDestination</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
     <name>Multiverse-CommandDestination</name>
@@ -89,10 +89,6 @@
         <repository>
             <id>benergy10</id>
             <url>https://repo.c0ding.party/snapshots/</url>
-        </repository>
-        <repository>
-            <id>benergy102</id>
-            <url>https://repo.c0ding.party/multiverse-beta/</url>
         </repository>
     </repositories>
 

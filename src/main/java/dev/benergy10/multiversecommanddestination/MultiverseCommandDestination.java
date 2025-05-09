@@ -12,7 +12,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
-import org.mvplugins.multiverse.core.api.MultiverseCoreApi;
+import org.mvplugins.multiverse.core.MultiverseCoreApi;
 
 import java.io.File;
 import java.util.HashMap;

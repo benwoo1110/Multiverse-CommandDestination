@@ -3,10 +3,10 @@ package dev.benergy10.multiversecommanddestination;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.mvplugins.multiverse.core.api.destination.DestinationInstance;
-import org.mvplugins.multiverse.core.api.event.MVConfigReloadEvent;
-import org.mvplugins.multiverse.core.api.event.MVDumpsDebugInfoEvent;
-import org.mvplugins.multiverse.core.api.event.MVTeleportDestinationEvent;
+import org.mvplugins.multiverse.core.destination.DestinationInstance;
+import org.mvplugins.multiverse.core.event.MVConfigReloadEvent;
+import org.mvplugins.multiverse.core.event.MVDumpsDebugInfoEvent;
+import org.mvplugins.multiverse.core.event.MVTeleportDestinationEvent;
 import org.mvplugins.multiverse.portals.event.MVPortalEvent;
 
 public class MultiverseListeners {
