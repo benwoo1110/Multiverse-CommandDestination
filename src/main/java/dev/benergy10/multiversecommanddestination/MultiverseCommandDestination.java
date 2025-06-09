@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
+import org.mvplugins.multiverse.core.command.MVCommandManager;
 
 import java.io.File;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ public final class MultiverseCommandDestination extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+        coreApi.getServiceLocator().getService(MVCommandManager.class).registerCommand(new ReloadCommand(this));
         coreApi.getDestinationsProvider().registerDestination(new CommandDestination(this));
         MultiverseListeners.registerEvents(this);
 
