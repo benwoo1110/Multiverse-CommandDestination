@@ -12,10 +12,10 @@ import org.mvplugins.multiverse.portals.event.MVPortalEvent;
 public class MultiverseListeners {
 
     public static void registerEvents(MultiverseCommandDestination plugin) {
-        tryRegister("org.mvplugins.multiverse.core.api.event.MVTeleportDestinationEvent", new TeleportListener(plugin));
+        tryRegister("org.mvplugins.multiverse.core.event.MVTeleportDestinationEvent", new TeleportListener(plugin));
         tryRegister("org.mvplugins.multiverse.portals.event.MVPortalEvent", new PortalListener(plugin));
-        tryRegister("org.mvplugins.multiverse.core.api.event.MVConfigReloadEvent", new ReloadListener(plugin));
-        tryRegister("org.mvplugins.multiverse.core.api.event.MVDumpsDebugInfoEvent", new VersionListener(plugin));
+        tryRegister("org.mvplugins.multiverse.core.event.MVConfigReloadEvent", new ReloadListener(plugin));
+        tryRegister("org.mvplugins.multiverse.core.event.MVDumpsDebugInfoEvent", new VersionListener(plugin));
     }
 
     private static void tryRegister(String eventClass, AbstractListener listener) {
