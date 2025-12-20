@@ -36,19 +36,19 @@ commands:
 
   # The following is an example.
   # To run this in Multiverse teleport command, you can do: '/mvtp cmd:examplename'
-  # To set a portal destination, run '/mvp modify dest cmd:examplename -p <portalname>'
+  # To set a portal destination, run '/mvp modify [portal] destination cmd:examplename'
   # Upon teleporting to the destination, the 2 say command will be executed.
   examplename:
     - 'say I am %player% at %world%.'
     - 'console:say This is running from console.'
 
   # A command destination pre-made if you use BetterRTP plugin
-  # Simply set your portal destination with '/mvp modify dest cmd:betterrtp -p <portalname>'
+  # Simply set your portal destination with '/mvp modify [portal] destination cmd:betterrtp'
   betterrtp:
     - 'console:rtp player %player% world' # Replace world with your actual target world.
 
   # A command destination pre-made if you use WildernessTp plugin
-  # Simply set your portal destination with '/mvp modify dest cmd:wildernesstp -p <portalname>'
+  # Simply set your portal destination with '/mvp modify [portal] destination cmd:wildernesstp'
   wildernesstp:
     - 'console:wild %player%'
 
